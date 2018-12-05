@@ -54,14 +54,71 @@
 		B3A7DE3C21B82BD500169124 /* Assignment */ = {
 			isa = PBXGroup;
 			children = (
-				B3A7DE3D21B82BD500169124 /* AppDelegate.swift */,
-				B3A7DE3F21B82BD500169124 /* ViewController.swift */,
-				B3A7DE4121B82BD500169124 /* Main.storyboard */,
+				B3A7DE5421B82EDF00169124 /* Model */,
+				B3A7DE5321B82ED900169124 /* View */,
+				B3A7DE5121B82E8B00169124 /* Controller */,
+				B3A7DE5021B82C4900169124 /* SupportingFiles */,
+				B3A7DE4F21B82C3F00169124 /* Networking */,
 				B3A7DE4421B82BD700169124 /* Assets.xcassets */,
-				B3A7DE4621B82BD700169124 /* LaunchScreen.storyboard */,
-				B3A7DE4921B82BD700169124 /* Info.plist */,
 			);
 			path = Assignment;
+			sourceTree = "<group>";
+		};
+		B3A7DE4F21B82C3F00169124 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		B3A7DE5021B82C4900169124 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				B3A7DE4921B82BD700169124 /* Info.plist */,
+				B3A7DE4121B82BD500169124 /* Main.storyboard */,
+				B3A7DE4621B82BD700169124 /* LaunchScreen.storyboard */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		B3A7DE5121B82E8B00169124 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B3A7DE3F21B82BD500169124 /* ViewController.swift */,
+				B3A7DE3D21B82BD500169124 /* AppDelegate.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B3A7DE5221B82EB100169124 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = TableView;
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B3A7DE5321B82ED900169124 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B3A7DE5521B82EE800169124 /* CollectionView */,
+				B3A7DE5221B82EB100169124 /* TableView */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B3A7DE5421B82EDF00169124 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B3A7DE5521B82EE800169124 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
