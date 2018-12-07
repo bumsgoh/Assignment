@@ -86,6 +86,12 @@ struct MovieComment: Codable {
     }
 }
 
+public enum SortCode: Int {
+    case reservationRate
+    case quration
+    case outDate
+}
+
 public func getGradeImage(grade: Int) -> UIImage {
     switch grade {
     case 0:

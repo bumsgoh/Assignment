@@ -11,7 +11,7 @@ import UIKit
 private let reuseIdentifier = "MovieCollectionViewCell"
 
 var cellsPerRow:CGFloat = 2
-let cellPadding:CGFloat = 0
+let cellPadding:CGFloat = 16
 
 class MainCollectionViewController: UICollectionViewController {
     var sortCode: SortCode = SortCode.reservationRate
@@ -71,7 +71,7 @@ extension MainCollectionViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        cellsPerRow = (traitCollection.verticalSizeClass == .compact) ? 4 : 3
+        cellsPerRow = (traitCollection.verticalSizeClass == .compact) ? 4 : 2
         collectionView.reloadData()
     }
     
@@ -93,7 +93,11 @@ extension MainCollectionViewController {
         cell.outDateLabel.text = "\(movie.date)"
         cell.gradeImageView.image = getGradeImage(grade: movie.grade)
         cell.infoLabel.text = "\(movie.reservationGrade)위 \(movie.userRating) / \(movie.reservationRate)%"
-        guard let url = URL(string: movie.thumb) else {return UICollectionViewCell.init()}
+        guard let url = URL(string: movie.thumb) else {
+            
+            return UICollectionViewCell.init()
+            
+        }
         NetworkManager.shared.getImage(url: url) { [weak self] (image,error) in
             if let error = error {
                 self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
@@ -113,23 +117,11 @@ extension MainCollectionViewController {
 }
 
 extension MainCollectionViewController: UICollectionViewDelegateFlowLayout {
-   /*
+  
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.size.width/2 - 22
-        let height = view.frame.size.height/2 - 72
-        return CGSize(width: width, height: height)
-    }*/
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthMinusPadding = UIScreen.main.bounds.width - (cellPadding + cellPadding * cellsPerRow)
-        let eachSide = widthMinusPadding / cellsPerRow
-        return CGSize(width: eachSide * 1.3, height: eachSide * 2)
+        let widthWithoutPadding = self.collectionView.frame.width - (cellPadding + cellPadding * cellsPerRow)
+        let itemWidth = widthWithoutPadding / cellsPerRow
+        return CGSize(width: itemWidth, height: itemWidth * 2)
     }
 }
 
-extension MainCollectionViewController: NetworkServiceDelegate {
-    
-    func didCompleteRequest() {
-        self.collectionView?.reloadData()
-    }
-}

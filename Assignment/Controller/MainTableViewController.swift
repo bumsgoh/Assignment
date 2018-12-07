@@ -53,9 +53,8 @@ class MainTableViewController: UITableViewController {
                     refreshControl.endRefreshing()
                 }
             case.failure(let error):
-                 ErrorHandler.shared.buildErrorAlertController(error: error)
+                 self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
             }
-            
         }
     }
 }
@@ -101,16 +100,11 @@ extension MainTableViewController {
      }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let VC: MovieDetailTableViewController = MovieDetailTableViewController()
-        //VC.movieId = self.movieData[indexPath.row].id
-       // self.navigationController?.pushViewController(VC, animated: true)
+        let VC: ViewController = ViewController()
+        
+       // VC.movieId = self.movieData[indexPath.row].id
+       self.navigationController?.pushViewController(VC, animated: true)
     }
 }
 
-extension MainTableViewController: NetworkServiceDelegate {
-    
-    func didCompleteRequest() {
-      //  self.tableView.reloadData()
-    }
-}
- 
+

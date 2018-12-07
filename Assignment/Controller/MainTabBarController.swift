@@ -10,11 +10,8 @@ import UIKit
 
 class MainTabBarController: UITabBarController {
     
-    weak var tableNetworkDelgate: NetworkServiceDelegate?
-    weak var collectionNetworkDelegate: NetworkServiceDelegate?
     var movieInformations: [MovieInformation] = []
     var sortCode: SortCode = SortCode.reservationRate
-    
     
     lazy var indicator: UIActivityIndicatorView = { // 인디케이터가 실제로 실행될 때 로드됨
         let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
@@ -30,6 +27,7 @@ class MainTabBarController: UITabBarController {
         navigationItemUpdate()
         indicator.startAnimating()
         setInitialNetworkData()
+       
     }
     
     func setInitialNetworkData() {
@@ -53,21 +51,17 @@ class MainTabBarController: UITabBarController {
     }
     
     func buildViewControllers() {
-        
         let tableViewController = MainTableViewController()
         tableViewController.tabBarItem = UITabBarItem(title: "Table", image: #imageLiteral(resourceName: "ic_table"), tag: 0)
-        self.tableNetworkDelgate = tableViewController
         tableViewController.tableView.backgroundColor = UIColor.white
         tableViewController.movieInformations = self.movieInformations
         
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets.init(top: 8, left: 8, bottom: 8, right: 8)
         let collectionViewController: MainCollectionViewController = MainCollectionViewController(collectionViewLayout: layout)
-        
         collectionViewController.tabBarItem = UITabBarItem(title: "Collection", image: #imageLiteral(resourceName: "ic_collection"), tag: 1)
         collectionViewController.collectionView?.backgroundColor = UIColor.white
         collectionViewController.movieInformations = self.movieInformations
-        self.collectionNetworkDelegate = collectionViewController
 
         let viewControllers = [tableViewController, collectionViewController]
         self.setViewControllers(viewControllers, animated: false)
@@ -119,9 +113,7 @@ extension MainTabBarController {
                 self.updateFromModel(viewControllers: self.viewControllers ?? [UIViewController.init()])
             
             }
-            
             })
-        
         
         let outDateAction: UIAlertAction = UIAlertAction(title: "개봉일", style: .default, handler: {(action: UIAlertAction) in
             self.navigationItem.title = "개봉일순"
@@ -130,21 +122,16 @@ extension MainTabBarController {
                 
                 self.updateFromModel(viewControllers: self.viewControllers ?? [UIViewController.init()])
             }
-                                                                
-            
-        
         })
         
-        let cancelAction: UIAlertAction = UIAlertAction(title: "취소",
-                                                        style: .cancel,
-                                                        handler: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
 
         alertController.addAction(reservationRateAction)
         alertController.addAction(qurationAction)
         alertController.addAction(outDateAction)
         alertController.addAction(cancelAction)
         
-        if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.pad { //아이패드일 경우 액션시트를 대체해서 사용된다.
+        if UI_USER_INTERFACE_IDIOM() == .pad { //아이패드일 경우 액션시트를 대체해서 사용된다.
             alertController.popoverPresentationController?.barButtonItem = self.navigationItem.rightBarButtonItem
             alertController.popoverPresentationController?.permittedArrowDirections = .up
             alertController.popoverPresentationController?.sourceView = self.view
@@ -168,16 +155,12 @@ extension MainTabBarController {
     func fetchMovieInformation(by sortCode: SortCode, _ completion: @escaping ()->()) {
             let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode))
             NetworkManager.shared.fetch(with: request, decodeType: APIResponseMovieInformation.self) { [weak self] (result, response) in
-                print("sort: \(sortCode)")
                 switch result {
                 case .success(let data):
                     self?.movieInformations = data.movies
-                    //print(self?.movieInformations)
                     OperationQueue.main.addOperation {
                         self?.indicator.stopAnimating()
-                        self?.tableNetworkDelgate?.didCompleteRequest()
                         completion()
-                        //self?.collectionNetworkDelegate?.didCompleteRequest()
                     }
                 case.failure(let error):
                     OperationQueue.main.addOperation {

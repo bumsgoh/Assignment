@@ -13,7 +13,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = UIColor.black
         return label
     }()
@@ -68,7 +68,6 @@ extension MainCollectionViewCell {
     }
     
     func UISetUp() {
-        self.contentView.backgroundColor = UIColor.blue
         self.contentView.addSubview(movieImageView)
         self.movieImageView.addSubview(gradeImageView)
         self.contentView.addSubview(titleLabel)
@@ -78,10 +77,10 @@ extension MainCollectionViewCell {
         self.movieImageView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
         self.movieImageView.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         self.movieImageView.heightAnchor.constraint(equalTo: self.contentView.heightAnchor, multiplier: 0.8).isActive = true
-        self.movieImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.9).isActive = true
+        self.movieImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1).isActive = true
     
         self.gradeImageView.trailingAnchor.constraint(equalTo: self.movieImageView.trailingAnchor, constant: -8).isActive = true
-        self.gradeImageView.topAnchor.constraint(equalTo: self.movieImageView.topAnchor, constant: 16).isActive = true
+        self.gradeImageView.topAnchor.constraint(equalTo: self.movieImageView.topAnchor, constant: 18).isActive = true
         
         self.titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
         self.titleLabel.topAnchor.constraint(equalTo: self.movieImageView.bottomAnchor, constant: 8).isActive = true

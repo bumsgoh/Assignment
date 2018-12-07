@@ -32,7 +32,7 @@ class NetworkManager: APIService {
         }
        
         let imageLoadError: NSError = NSError(domain: "imageLoadFailed", code: 0, userInfo: nil)
-        URLSession.shared.dataTask(with: url, completionHandler: {(data: Data?, reponse: URLResponse?, error: Error?) in
+        session.dataTask(with: url, completionHandler: {(data: Data?, reponse: URLResponse?, error: Error?) in
                 var movieImage: UIImage? = UIImage()
                 if let error = error {
                     print(error.localizedDescription)
