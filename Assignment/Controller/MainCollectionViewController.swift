@@ -110,9 +110,9 @@ extension MainCollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        //let VC: MovieDetailTableViewController = MovieDetailTableViewController()
-       // VC.movieId = self.movieData[indexPath.row].id
-        //self.navigationController?.pushViewController(VC, animated: true)
+        let VC: MovieDetailTableViewController = MovieDetailTableViewController()
+        VC.movieId = self.movieInformations[indexPath.row].id
+        self.navigationController?.pushViewController(VC, animated: true)
     }
 }
 

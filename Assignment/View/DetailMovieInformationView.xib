@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
+    <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -41,22 +41,22 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="5ye-nY-uFH">
-                                    <rect key="frame" x="10" y="30.5" width="112" height="22.5"/>
+                                    <rect key="frame" x="28" y="30.5" width="76.5" height="15.5"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="Mld-TD-Vmu">
-                                            <rect key="frame" x="0.0" y="0.0" width="22.5" height="22.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="15" height="15.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="you-om-Sfu">
-                                            <rect key="frame" x="22.5" y="0.0" width="22.5" height="22.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="15.5" height="15.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="l9c-jC-3no">
-                                            <rect key="frame" x="45" y="0.0" width="22.5" height="22.5"/>
+                                            <rect key="frame" x="30.5" y="0.0" width="15" height="15.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="kW3-v5-gh4">
-                                            <rect key="frame" x="67" y="0.0" width="22.5" height="22.5"/>
+                                            <rect key="frame" x="45.5" y="0.0" width="15.5" height="15.5"/>
                                         </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="VBO-c0-vbs">
-                                            <rect key="frame" x="89.5" y="0.0" width="22.5" height="22.5"/>
+                                            <rect key="frame" x="61" y="0.0" width="15.5" height="15.5"/>
                                         </imageView>
                                     </subviews>
                                     <constraints>
@@ -67,7 +67,7 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="5ye-nY-uFH" firstAttribute="centerX" secondItem="U5J-0j-jgQ" secondAttribute="centerX" id="5Nq-8a-Ukz"/>
-                                <constraint firstItem="Mld-TD-Vmu" firstAttribute="width" secondItem="U5J-0j-jgQ" secondAttribute="width" multiplier="0.17" id="6Je-mJ-RJG"/>
+                                <constraint firstItem="Mld-TD-Vmu" firstAttribute="width" secondItem="U5J-0j-jgQ" secondAttribute="height" multiplier="0.17" id="6Je-mJ-RJG"/>
                                 <constraint firstItem="EMl-8b-DEh" firstAttribute="centerX" secondItem="U5J-0j-jgQ" secondAttribute="centerX" id="AfM-sB-aid"/>
                                 <constraint firstItem="5ye-nY-uFH" firstAttribute="top" secondItem="EMl-8b-DEh" secondAttribute="bottom" constant="6" id="Mbw-lI-Uga"/>
                                 <constraint firstItem="EMl-8b-DEh" firstAttribute="top" secondItem="U5J-0j-jgQ" secondAttribute="top" constant="4" id="oKP-zo-ODa"/>
@@ -97,7 +97,7 @@
                         <constraint firstItem="U5J-0j-jgQ" firstAttribute="height" secondItem="Ljx-oF-qzt" secondAttribute="height" id="lIP-Yq-b55"/>
                     </constraints>
                 </stackView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-gi-1BS">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Td4-gi-1BS">
                     <rect key="frame" x="8" y="8" width="132.5" height="157"/>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="PpV-0n-84I">
@@ -124,10 +124,14 @@
                     </subviews>
                 </stackView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_12" translatesAutoresizingMaskIntoConstraints="NO" id="SKu-ZM-Oj4">
-                    <rect key="frame" x="331.5" y="73.5" width="25" height="25"/>
+                    <rect key="frame" x="331.5" y="68.5" width="35" height="35"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="25" id="Df8-T9-mf0"/>
-                        <constraint firstAttribute="width" constant="25" id="Sfk-44-9It"/>
+                        <constraint firstAttribute="height" constant="25" id="Df8-T9-mf0">
+                            <variation key="heightClass=compact" constant="35"/>
+                        </constraint>
+                        <constraint firstAttribute="width" constant="25" id="Sfk-44-9It">
+                            <variation key="heightClass=compact" constant="35"/>
+                        </constraint>
                     </constraints>
                 </imageView>
             </subviews>
@@ -162,11 +166,12 @@
                 <outlet property="starRatingStackView" destination="5ye-nY-uFH" id="fk5-is-P9f"/>
                 <outlet property="totalAudienceLabel" destination="DpM-T8-5B3" id="a5E-sI-83i"/>
             </connections>
-            <point key="canvasLocation" x="133.59999999999999" y="-24.287856071964018"/>
+            <point key="canvasLocation" x="18" y="-114"/>
         </view>
     </objects>
     <resources>
         <image name="ic_12" width="20" height="20"/>
         <image name="ic_star_large" width="48" height="48"/>
+        <image name="img_placeholder" width="100" height="140"/>
     </resources>
 </document>

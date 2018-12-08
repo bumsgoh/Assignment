@@ -10,16 +10,17 @@ import UIKit
 
 class MovieDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     
+    
     let dispatchGroup = DispatchGroup()
-    var movieDetailData: MovieDetailData?
-    //var movDetailData: MovieDetailData?
-    var movieId: String = ""
     let cellIdentifier = "commentCell"
     let synopsisCellIdentifier = "synopsisCell"
     let actorAndDirectorCellIdentifier = "actorAndDirectorCell"
+    var tableHeaderViewHeightAnchor: NSLayoutConstraint = NSLayoutConstraint.init()
     var movieCommentData: [MovieCommentData] = []
     var informationViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
     var synopsisViewHeightConstraint: NSLayoutConstraint = NSLayoutConstraint()
+    var movieDetailData: MovieDetailData = MovieDetailData()
+    var movieId: String = ""
     
     lazy var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
@@ -41,11 +42,10 @@ class MovieDetailTableViewController: UITableViewController, UIGestureRecognizer
         return recognizer
     }()
     
-    let informationHeadView: UIView = {
+    var informationHeadView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = UIColor.lightGray
-        view.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
         return view
     }()
     
@@ -55,8 +55,6 @@ class MovieDetailTableViewController: UITableViewController, UIGestureRecognizer
             return DetailMovieInformationView.init()
         }
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = UIColor.lightGray
-        view.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
         return view
     }()
 
@@ -64,7 +62,6 @@ class MovieDetailTableViewController: UITableViewController, UIGestureRecognizer
         super.viewDidLoad()
         let nib = UINib(nibName: "CommentTableViewCell", bundle: nil)
         tableView.register(nib, forCellReuseIdentifier: cellIdentifier)
-        
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.estimatedRowHeight = 250
@@ -73,43 +70,46 @@ class MovieDetailTableViewController: UITableViewController, UIGestureRecognizer
         UIAfterGetData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if self.traitCollection.verticalSizeClass == .compact {
+            self.tableHeaderViewHeightAnchor.isActive = false
+            self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.8)
+            self.tableHeaderViewHeightAnchor.isActive = true
+        } else {
+            self.tableHeaderViewHeightAnchor.isActive = false
+            self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.35)
+            self.tableHeaderViewHeightAnchor.isActive = true
+        }
+    }
+    
 
     @objc func movieImageClicked() {
         let popUpVC: PopUpImageViewController = PopUpImageViewController()
             popUpVC.fullScreenImageView.image = detailMovieInformationView.movieImageView.image
         self.present(popUpVC, animated: false, completion: nil)
     }
-    
-    @objc func writeButtonPressed() {/*
-        let VC: CommentInputViewController = CommentInputViewController()
-        guard let ratingString: NSString = CommentInformation.shared.rating as NSString? else {return}
-        VC.navigationItem.title = "한줄평 작성"
-        VC.navigationController?.isNavigationBarHidden = false
-        VC.movieTitleLabel.text = detailInfoView.titleLabel.text
-        VC.gradeImageView.image = detailInfoView.gradeImageView.image
-        VC.controlRatingBar.rating = ratingString.floatValue/2
-        VC.ratingCountLabel.text = CommentInformation.shared.rating
-        VC.nameTextField.text = CommentInformation.shared.id
-        VC.commentTextField.text = CommentInformation.shared.comment
-        VC.movieId = movieId
-        VC.writeDoneDelegate = self
-        VC.navigationItem.title = "한줄평"
-        
-        let backItem = UIBarButtonItem(title: "취소:", style: .plain, target: self, action: nil)
-        self.navigationItem.backBarButtonItem = backItem
-        let navi = UINavigationController(rootViewController: VC)
-        self.navigationController?.present(navi, animated: true, completion: nil)*/
-    }
 }
 
 extension MovieDetailTableViewController {
-  
+
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         DispatchQueue.main.async {
+            if self.traitCollection.verticalSizeClass == .compact {
+                
+                self.tableHeaderViewHeightAnchor.isActive = false
+                self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.8)
+                self.tableHeaderViewHeightAnchor.isActive = true
+            } else {
+                self.tableHeaderViewHeightAnchor.isActive = false
+                self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.35)
+                self.tableHeaderViewHeightAnchor.isActive = true
+            }
+            
             self.tableView.tableHeaderView?.layoutIfNeeded()
             self.tableView.tableHeaderView = self.tableView.tableHeaderView
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -117,7 +117,6 @@ extension MovieDetailTableViewController {
         case 0,1:
             return 1
         case 2:
-            print("how many? \(self.movieCommentData.count)")
             return self.movieCommentData.count
         default:
             return 0
@@ -125,22 +124,18 @@ extension MovieDetailTableViewController {
 }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let movieData = self.movieDetailData else {return UITableViewCell.init()}
-        
         switch indexPath.section {
         case 0:
             let cell: SynopsisTableViewCell = SynopsisTableViewCell()
             cell.sizeToFit()
-            cell.synopsisTextView.text = movieData.synopsis
+            cell.synopsisTextView.text = movieDetailData.synopsis
             cell.isUserInteractionEnabled = false
             return cell
         case 1:
             let cell: ActorAndDirectorTableViewCell = ActorAndDirectorTableViewCell()
-            cell.backgroundColor = UIColor.lightGray
-            cell.directorLabel.text = movieData.director
-            cell.actorLabel.text = movieData.actor
-            cell.isUserInteractionEnabled = true
-            cell.tableViewHeadButton.addTarget(self, action: #selector(writeButtonPressed), for: .touchUpInside)
+            cell.directorLabel.text = movieDetailData.director
+            cell.actorLabel.text = movieDetailData.actor
+            cell.isUserInteractionEnabled = false
             return cell
         case 2:
             guard let cell: CommentTableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? CommentTableViewCell else {
@@ -150,21 +145,10 @@ extension MovieDetailTableViewController {
             }
             let commentData = movieCommentData[indexPath.row]
             cell.movieCommentData = commentData
-           // let time: Double = movieCommentData[indexPath.row].timestamp
-           // let date = Date(timeIntervalSince1970: time)
-           // if movieCommentData[indexPath.row].writer.isEmpty {
-             //   cell.userIdLabel.text = "익명"
-            //} else {
-              //  cell.userIdLabel.text = movieCommentData[indexPath.row].writer
-            //}
-            //cell.starRatingPoint = Float(movieCommentData[indexPath.row].rating)/2
-           // cell.timeLabel.text = formatter.string(from: date)
-            //cell.commentTextView.text = movieCommentData[indexPath.row].contents
             return cell
         default:
             return UITableViewCell.init()
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -174,7 +158,7 @@ extension MovieDetailTableViewController {
         case 1:
             return 170.0
         case 2:
-            return 170.0
+            return 150.0
         default:
             return 0.0
         }
@@ -183,6 +167,7 @@ extension MovieDetailTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
+
 }
 
 //MARK:-UI Data Setting
@@ -193,15 +178,13 @@ extension MovieDetailTableViewController {
         self.tableView.tableHeaderView?.isUserInteractionEnabled = true
         self.informationHeadView.topAnchor.constraint(equalTo: self.tableView.topAnchor).isActive = true
         self.informationHeadView.widthAnchor.constraint(equalTo: self.tableView.widthAnchor, multiplier: 1).isActive = true
-        self.informationHeadView.leadingAnchor.constraint(equalTo: self.tableView.leadingAnchor).isActive = true
-        self.informationHeadView.trailingAnchor.constraint(equalTo: self.tableView.trailingAnchor).isActive = true
-        
-        self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.45).isActive = true
-        
+        self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.35)
+        tableHeaderViewHeightAnchor.isActive = true
         self.informationHeadView.addSubview(detailMovieInformationView)
-        detailMovieInformationView.backgroundColor = UIColor.white
+        
+        self.detailMovieInformationView.backgroundColor = UIColor.white
         self.detailMovieInformationView.widthAnchor.constraint(equalTo: self.informationHeadView.widthAnchor, multiplier: 1).isActive = true
-        self.detailMovieInformationView.heightAnchor.constraint(equalTo: self.informationHeadView.heightAnchor, multiplier: 0.98).isActive = true
+        self.detailMovieInformationView.heightAnchor.constraint(equalTo: self.informationHeadView.heightAnchor, multiplier: 0.99).isActive = true
         self.detailMovieInformationView.movieImageView.isUserInteractionEnabled = true
         self.detailMovieInformationView.movieImageView.addGestureRecognizer(gestureRecognizer)
         
@@ -211,25 +194,19 @@ extension MovieDetailTableViewController {
         self.tableView.tableHeaderView?.layoutIfNeeded()
         self.tableView.tableHeaderView = self.tableView.tableHeaderView
     }
-  
+    
+//MARK:-Threads Work
     func UIAfterGetData() {
         self.indicator.startAnimating()
         self.getMovieDetailData()
         self.getCommentData()
         
         dispatchGroup.notify(queue: .main) {
-            print("shit")
             self.indicator.stopAnimating()
-            guard let movieData = self.movieDetailData else {
-              
-                return
-                
-            }
-            print("Queue")
-            self.movieId = movieData.id
-            let data: MovieDetailData = MovieDetailData(director: movieData.director, date: movieData.date, id: movieData.id, title: movieData.title, audience: movieData.audience, actor: movieData.actor, duration: movieData.duration, synopsis: movieData.synopsis, genre: movieData.genre, grade: movieData.grade, image: movieData.image, reservationGrade: movieData.reservationGrade, reservationRate: movieData.reservationRate, userRating: movieData.userRating)
+            self.movieId = self.movieDetailData.id
+            let data: MovieDetailData = MovieDetailData(director: self.movieDetailData.director, date: self.movieDetailData.date, id: self.self.movieDetailData.id, title: self.movieDetailData.title, audience: self.movieDetailData.audience, actor: self.movieDetailData.actor, duration: self.movieDetailData.duration, synopsis: self.movieDetailData.synopsis, genre: self.movieDetailData.genre, grade: self.movieDetailData.grade, image: self.movieDetailData.image, reservationGrade: self.movieDetailData.reservationGrade, reservationRate: self.movieDetailData.reservationRate, userRating: self.movieDetailData.userRating)
             self.detailMovieInformationView.movieDetailInformations = data
-            self.navigationItem.title = "\(movieData.title)"
+            
             self.tableView.reloadData()
         }
     }
@@ -253,9 +230,10 @@ extension MovieDetailTableViewController {
                     }
                     OperationQueue.main.addOperation {
                         self?.movieDetailData = data
+                        self?.navigationItem.title = "\(self?.movieDetailData.title ?? "")"
                         self?.detailMovieInformationView.movieImageView.image = image
                         self?.detailMovieInformationView.movieDetailInformations = self?.movieDetailData
-                        print("image all set")
+                        self?.tableView.reloadData()
                         self?.dispatchGroup.leave()
                         }
                     }
@@ -277,10 +255,6 @@ extension MovieDetailTableViewController {
             switch result {
             case .success(let data):
                 self?.movieCommentData = data.comments
-                OperationQueue.main.addOperation {
-                    self?.indicator.stopAnimating()
-                    print("comment set")
-                }
                 self?.dispatchGroup.leave()
             case.failure(let error):
                 OperationQueue.main.addOperation {

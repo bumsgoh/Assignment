@@ -35,7 +35,7 @@ class MainCollectionViewCell: UICollectionViewCell {
     let outDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 11)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = UIColor.black
         return label
     }()

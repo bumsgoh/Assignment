@@ -97,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				B3E8351721BABED600D6A5DE /* Extensions */,
-				B3A7DE4921B82BD700169124 /* Info.plist */,
 				B3A7DE5921B8332800169124 /* ErrorHandling */,
 				B3A7DE5421B82EDF00169124 /* Model */,
 				B3A7DE5321B82ED900169124 /* View */,
@@ -105,6 +104,7 @@
 				B3A7DE5021B82C4900169124 /* SupportingFiles */,
 				B3A7DE4F21B82C3F00169124 /* Networking */,
 				B3A7DE4421B82BD700169124 /* Assets.xcassets */,
+				B3A7DE4921B82BD700169124 /* Info.plist */,
 			);
 			path = Assignment;
 			sourceTree = "<group>";
