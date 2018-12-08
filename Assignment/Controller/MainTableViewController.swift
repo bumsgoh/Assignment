@@ -20,8 +20,6 @@ class MainTableViewController: UITableViewController {
             
         }
     }
-    //var sortCode: SortCode = SortCode.reservationRate
-    
     lazy var refreshController: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self,
@@ -40,11 +38,12 @@ class MainTableViewController: UITableViewController {
     }
     
    @objc func scrollDownToRefresh(_ refreshControl: UIRefreshControl) {
-    
-        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode))
-    
+    let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode), errorOcurredBlock: {
+        
+        self.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.urlFailure), animated: true, completion: nil)
+
+    })
         NetworkManager.shared.fetch(with: request, decodeType: APIResponseMovieInformation.self) { [weak self] (result, response) in
-            
             switch result {
             case .success(let data):
                 self?.movieInformations = data.movies
@@ -52,12 +51,14 @@ class MainTableViewController: UITableViewController {
                     self?.tableView.reloadData()
                     refreshControl.endRefreshing()
                 }
-            case.failure(let error):
-                 self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
+            case.failure(_ ):
+                 self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
             }
         }
     }
 }
+
+//MARK:- TableView Setting
 extension MainTableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -89,9 +90,9 @@ extension MainTableViewController {
             return UITableViewCell.init()
             
         }
-        NetworkManager.shared.getImage(url: url) {(image,error) in
-            if let error = error {
-                let alert = ErrorHandler.shared.buildErrorAlertController(error: error)
+        NetworkManager.shared.getImageWithCaching(url: url) {(image,error) in
+            if error != nil {
+                let alert = ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed)
                 self.present(alert, animated: true, completion: nil)
             }
                 cell.movieImageView.image = image

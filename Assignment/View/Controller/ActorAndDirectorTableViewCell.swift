@@ -82,6 +82,15 @@ class ActorAndDirectorTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        UISetUp()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK:- UI Setting
+   private func UISetUp() {
         self.contentView.addSubview(directorView)
         self.directorView.addSubview(headText)
         self.directorView.addSubview(directorText)
@@ -92,7 +101,7 @@ class ActorAndDirectorTableViewCell: UITableViewCell {
         self.contentView.addSubview(tableViewHeadView)
         self.tableViewHeadView.addSubview(tableViewHeadText)
         self.tableViewHeadView.addSubview(tableViewHeadButton)
-    
+        
         self.directorView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4).isActive = true
         self.directorView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         self.directorView.heightAnchor.constraint(equalToConstant: 120).isActive = true
@@ -120,11 +129,6 @@ class ActorAndDirectorTableViewCell: UITableViewCell {
         self.tableViewHeadButton.topAnchor.constraint(equalTo: self.tableViewHeadView.topAnchor, constant: 8).isActive = true
         self.tableViewHeadButton.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8).isActive = true
         
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
 }

@@ -33,7 +33,7 @@ class PopUpImageViewController: UIViewController {
         self.dismiss(animated: false, completion: nil)
     }
     
-    func UISetUp() {
+   private func UISetUp() {
         
         self.view.addSubview(fullScreenImageView)
         

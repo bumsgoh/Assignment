@@ -173,7 +173,7 @@ extension MovieDetailTableViewController {
 //MARK:-UI Data Setting
 extension MovieDetailTableViewController {
     
-    func UISetUp() {
+   private func UISetUp() {
         self.tableView.tableHeaderView = informationHeadView
         self.tableView.tableHeaderView?.isUserInteractionEnabled = true
         self.informationHeadView.topAnchor.constraint(equalTo: self.tableView.topAnchor).isActive = true
@@ -196,7 +196,7 @@ extension MovieDetailTableViewController {
     }
     
 //MARK:-Threads Work
-    func UIAfterGetData() {
+   private func UIAfterGetData() {
         self.indicator.startAnimating()
         self.getMovieDetailData()
         self.getCommentData()
@@ -211,9 +211,13 @@ extension MovieDetailTableViewController {
         }
     }
     
-    func getMovieDetailData() {
+   private func getMovieDetailData() {
         self.dispatchGroup.enter()
-        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieDetailData(movieId: movieId))
+        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieDetailData(movieId: movieId), errorOcurredBlock: {
+            
+            self.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.urlFailure), animated: true, completion: nil)
+
+        })
         NetworkManager.shared.fetch(with: request, decodeType: MovieDetailData.self) { [weak self] (result, response) in
             switch result {
             case .success(let data):
@@ -222,7 +226,7 @@ extension MovieDetailTableViewController {
                     return
                         
                 }
-                NetworkManager.shared.getImage(url: imageURL) {[weak self] (image,err) in
+                NetworkManager.shared.getImageWithCaching(url: imageURL) {[weak self] (image,err) in
                     guard let image = image else {
                            
                         return
@@ -232,34 +236,38 @@ extension MovieDetailTableViewController {
                         self?.movieDetailData = data
                         self?.navigationItem.title = "\(self?.movieDetailData.title ?? "")"
                         self?.detailMovieInformationView.movieImageView.image = image
-                        self?.detailMovieInformationView.movieDetailInformations = self?.movieDetailData
+                        self?.detailMovieInformationView.movieDetailInformations = self?.movieDetailData ?? MovieDetailData()
                         self?.tableView.reloadData()
                         self?.dispatchGroup.leave()
                         }
                     }
                 
-            case.failure(let error):
+            case.failure(_ ):
                 OperationQueue.main.addOperation {
                     self?.indicator.stopAnimating()
-                    self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
+                    self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
                 }
                 self?.dispatchGroup.leave()
             }
         }
     }
     
-    func getCommentData(){
+   private func getCommentData(){
         self.dispatchGroup.enter()
-        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieDataIncludingComments(movieId: movieId))
+        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieDataIncludingComments(movieId: movieId), errorOcurredBlock: {
+            
+            self.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.urlFailure), animated: true, completion: nil)
+
+        })
         NetworkManager.shared.fetch(with: request, decodeType: APIResponseMovieCommentData.self) { [weak self] (result, response) in
             switch result {
             case .success(let data):
                 self?.movieCommentData = data.comments
                 self?.dispatchGroup.leave()
-            case.failure(let error):
+            case.failure(_ ):
                 OperationQueue.main.addOperation {
                     self?.indicator.stopAnimating()
-                self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
+                self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
                 }
                 self?.dispatchGroup.leave()
             }

@@ -35,18 +35,16 @@ class CommentTableViewCell: UITableViewCell {
         super.awakeFromNib()
         getAllArrangedSubviews()
     }
-    
+    //MARK:- IBOutlets
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userIdLabel: UILabel!
     @IBOutlet weak var starRatingStackView: UIStackView!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var commentTextView: UITextView!
-    
-    
 }
 
 extension CommentTableViewCell {
-    func refreshingStarRatingView() {
+   private func refreshingStarRatingView() {
         for i in self.mutableStarImageArray.indices {
             let starImageView: UIImageView? = self.mutableStarImageArray[i]
             
@@ -60,8 +58,6 @@ extension CommentTableViewCell {
         }
     }
     
-    
-    
     private func getAllArrangedSubviews() {
         mutableStarImageArray = starRatingStackView.arrangedSubviews.compactMap {
             guard let starImageView: UIImageView = $0 as? UIImageView else {
@@ -72,18 +68,15 @@ extension CommentTableViewCell {
             return starImageView
         }
     }
-    
-    
-    
+
     override func prepareForReuse() {
         self.userImageView.image = #imageLiteral(resourceName: "ic_user_loading")
         self.userIdLabel.text = ""
-        //self.ratingBarView.rating = 0
         self.timeLabel.text = ""
         self.commentTextView.text = ""
     }
     
-    func setDataToViews() {
+   private func setDataToViews() {
         userImageView.image = #imageLiteral(resourceName: "ic_user_loading")
         userIdLabel.text = movieCommentData.writer
         starRatingPoint = Float(movieCommentData.rating)

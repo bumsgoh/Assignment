@@ -17,7 +17,7 @@ class DetailMovieInformationView: UIView {
             refreshingStarRatingView()
         }
     }
-    var movieDetailInformations: MovieDetailData? {
+    var movieDetailInformations: MovieDetailData = MovieDetailData() {
         didSet {
            setDataToViews()
         }
@@ -40,7 +40,7 @@ class DetailMovieInformationView: UIView {
         }
     }
     
-    func refreshingStarRatingView() {
+   private func refreshingStarRatingView() {
         for i in self.mutableStarImageArray.indices {
             let starImageView: UIImageView? = self.mutableStarImageArray[i]
             
@@ -54,16 +54,11 @@ class DetailMovieInformationView: UIView {
         }
     }
     
-    func setDataToViews() {
-        guard let movieDetail = self.movieDetailInformations else {
-            
-            return
-        }
-        //movieImageView.image = movieDetailInformations.image
+   private func setDataToViews() {
+        let movieDetail = self.movieDetailInformations
         movieTitleLabel.text = movieDetail.title
         outDateLabel.text = movieDetail.date
         genreAndRunningTimeLabel.text = "\(movieDetail.genre) \(movieDetail.duration)분"
-        //movieGradeImageView.image = movieDetailInformations.grade
         
         let reservationText: NSMutableAttributedString = NSMutableAttributedString()
         reservationText.append("예매율".toBoldString(with: 20))
@@ -88,6 +83,7 @@ class DetailMovieInformationView: UIView {
         audienceText.append(audienceNormalString)
         totalAudienceLabel.attributedText = audienceText
         starRatingPoint = Float(movieDetail.userRating)
+        movieGradeImageView.image = getGradeImage(grade: movieDetail.grade)
     }
     
     override func awakeFromNib() {
@@ -95,7 +91,7 @@ class DetailMovieInformationView: UIView {
         getAllArrangedSubviews()
     }
     
-    //MARK:- IB Actions and Outlets
+    //MARK:- IBOutlets
     
     @IBOutlet weak var movieImageView: UIImageView!
     @IBOutlet weak var movieTitleLabel: UILabel!

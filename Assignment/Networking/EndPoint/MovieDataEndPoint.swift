@@ -49,7 +49,7 @@ public enum MovieAPI {
                 
             case "/comments":
                  components.queryItems = [URLQueryItem(name: "movie_id", value: movieId)]
-                
+        
             default:
                 components.queryItems = [URLQueryItem(name: "movie_id", value: movieId)]
             }

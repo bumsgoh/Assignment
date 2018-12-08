@@ -33,14 +33,14 @@ class SynopsisTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.frame = CGRect(x: 0, y: 0, width: 300, height: 250)
         UISetUp()
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func UISetUp() {
+    //MARK:- UI Setting
+   private func UISetUp() {
         self.contentView.addSubview(synopsisLabel)
         self.contentView.addSubview(synopsisTextView)
         

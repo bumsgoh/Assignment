@@ -19,6 +19,7 @@ enum APIError: Error {
     case invalidData
     case responseUnsuccessful
     case jsonParsingFailure
+    case urlFailure
     
     var localizedDescription: String {
         switch self {
@@ -27,6 +28,7 @@ enum APIError: Error {
         case .responseUnsuccessful: return "Response Unsuccessful"
         case .jsonParsingFailure: return "JSON Parsing Failure"
         case .jsonConversionFailure: return "JSON Conversion Failure"
+        case .urlFailure: return "url Failure, app is gonna be off"
         }
     }
 }
@@ -36,7 +38,7 @@ class ErrorHandler {
     static let shared = ErrorHandler()
     private init(){}// singleton 이외의 인스턴스화를 금지한다.
     
-    func buildErrorAlertController(error: Error) -> UIAlertController {
+    func buildErrorAlertController(error: APIError) -> UIAlertController {
         let errorAlertController: UIAlertController
         errorAlertController = UIAlertController(title: "에러",
                                                  message: "데이터를 정상적으로 불러오지 못했습니다 Error: \(error.localizedDescription)",

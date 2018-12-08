@@ -18,7 +18,6 @@ class MainCollectionViewController: UICollectionViewController {
     var width: CGFloat?
     var movieInformations: [MovieInformation] = [] {
         didSet {
-            print("new data set")
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -48,7 +47,9 @@ class MainCollectionViewController: UICollectionViewController {
     }
     
     @objc func scrollDownToRefresh(_ refreshControl: UIRefreshControl) {
-        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode))
+        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode), errorOcurredBlock: {
+            self.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.urlFailure), animated: true, completion: nil)
+        })
         NetworkManager.shared.fetch(with: request,
                                     decodeType: APIResponseMovieInformation.self)
         { [weak self] (result, response) in
@@ -60,8 +61,8 @@ class MainCollectionViewController: UICollectionViewController {
                     self?.collectionView.reloadData()
                     refreshControl.endRefreshing()
                 }
-            case.failure(let error):
-                self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
+            case.failure(_ ):
+                self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
             }
             
         }
@@ -98,9 +99,9 @@ extension MainCollectionViewController {
             return UICollectionViewCell.init()
             
         }
-        NetworkManager.shared.getImage(url: url) { [weak self] (image,error) in
-            if let error = error {
-                self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
+        NetworkManager.shared.getImageWithCaching(url: url) { [weak self] (image,error) in
+            if error != nil {
+                self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.invalidData), animated: true, completion: nil)
             }
             DispatchQueue.main.async {
                 cell.movieImageView.image = image
@@ -110,9 +111,9 @@ extension MainCollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let VC: MovieDetailTableViewController = MovieDetailTableViewController()
-        VC.movieId = self.movieInformations[indexPath.row].id
-        self.navigationController?.pushViewController(VC, animated: true)
+        let movieDetailTableViewController: MovieDetailTableViewController = MovieDetailTableViewController()
+        movieDetailTableViewController.movieId = self.movieInformations[indexPath.row].id
+        self.navigationController?.pushViewController(movieDetailTableViewController, animated: true)
     }
 }
 

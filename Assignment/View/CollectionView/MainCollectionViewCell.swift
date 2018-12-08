@@ -17,6 +17,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         label.textColor = UIColor.black
         return label
     }()
+    
     let gradeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -67,7 +68,8 @@ extension MainCollectionViewCell {
         self.outDateLabel.text = ""
     }
     
-    func UISetUp() {
+    //MARK:- UI Setting
+   private func UISetUp() {
         self.contentView.addSubview(movieImageView)
         self.movieImageView.addSubview(gradeImageView)
         self.contentView.addSubview(titleLabel)

@@ -13,7 +13,7 @@ class MainTabBarController: UITabBarController {
     var movieInformations: [MovieInformation] = []
     var sortCode: SortCode = SortCode.reservationRate
     
-    lazy var indicator: UIActivityIndicatorView = { // 인디케이터가 실제로 실행될 때 로드됨
+    lazy var indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.gray)
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.hidesWhenStopped = true
@@ -30,27 +30,7 @@ class MainTabBarController: UITabBarController {
        
     }
     
-    func setInitialNetworkData() {
-        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode))
-        NetworkManager.shared.fetch(with: request, decodeType: APIResponseMovieInformation.self) { [weak self](result, response) in
-        
-            switch result {
-            case .success(let data):
-                self?.movieInformations = data.movies
-                OperationQueue.main.addOperation {
-                    self?.indicator.stopAnimating()
-                    self?.buildViewControllers()
-                }
-
-            case.failure(let error):
-                self?.present(ErrorHandler.shared.buildErrorAlertController(error: error),
-                             animated: true,
-                             completion: nil)
-            }
-        }
-    }
-    
-    func buildViewControllers() {
+   private func buildViewControllers() {
         let tableViewController = MainTableViewController()
         tableViewController.tabBarItem = UITabBarItem(title: "Table", image: #imageLiteral(resourceName: "ic_table"), tag: 0)
         tableViewController.tableView.backgroundColor = UIColor.white
@@ -67,32 +47,23 @@ class MainTabBarController: UITabBarController {
         self.setViewControllers(viewControllers, animated: false)
     }
     
-    func setIndicator() {
+   private func setIndicator() {
         self.view.addSubview(indicator)
         self.indicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
         self.indicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
     }
 }
 
-//navigationItem Setting
+//MARK:- NavigationItem Setting
 extension MainTabBarController {
     
-    func navigationItemUpdate() {
+   private func navigationItemUpdate() {
         self.navigationItem.title = "예매율순"
         let settingButton = UIBarButtonItem(image: #imageLiteral(resourceName: "ic_settings"), style: .plain, target: self, action: #selector(settingButtonPressed))
         self.navigationItem.rightBarButtonItem = settingButton
     }
     
     @objc func settingButtonPressed() {
-        /*
-        guard let tableView = self.viewControllers?[0] as? MainTableViewController,
-            let collectionView = self.viewControllers?[1] as? MainCollectionViewController,
-            let delegateForTable = self.tableNetworkDelgate,
-            let delegateForCollection = self.collectionNetworkDelegate else {
-            
-                return
-        }
-        */
         let alertController: UIAlertController = UIAlertController(title: "정렬방식 선택",message: "영화를 어떤 순서로 정렬할까요?",preferredStyle: .actionSheet)
         let reservationRateAction: UIAlertAction = UIAlertAction(title: "예매율", style: .default, handler: {(action: UIAlertAction) in self.navigationItem.title = "예매율순"
             self.indicator.startAnimating()
@@ -103,8 +74,7 @@ extension MainTabBarController {
             }
             
         })
-                                                                    
-    
+
         let qurationAction: UIAlertAction = UIAlertAction(title: "큐레이션", style: .default, handler: {(action: UIAlertAction) in
             self.navigationItem.title = "큐레이션"
             self.indicator.startAnimating()
@@ -138,11 +108,36 @@ extension MainTabBarController {
             alertController.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
             self.present(alertController, animated: true, completion: nil)
         } else {
-            self.present(alertController, animated: true, completion: {print("alert con shown")})
+            self.present(alertController, animated: true, completion: nil)
         }
     
     }
-    func updateFromModel(viewControllers: [UIViewController]) {
+    
+//MARK:- Networking and data Setting
+   private func setInitialNetworkData() {
+        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode), errorOcurredBlock: {
+            self.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.urlFailure), animated: true, completion: nil)
+        })
+        NetworkManager.shared.fetch(with: request, decodeType: APIResponseMovieInformation.self) { [weak self] (result, response) in
+            
+            switch result {
+            case .success(let data):
+                self?.movieInformations = data.movies
+                OperationQueue.main.addOperation {
+                    self?.indicator.stopAnimating()
+                    self?.buildViewControllers()
+                }
+                
+            case.failure(_ ):
+                self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed),
+                              animated: true,
+                              completion: nil)
+            }
+        }
+    }
+    
+    
+    private func updateFromModel(viewControllers: [UIViewController]) {
         guard let tableView = self.viewControllers?[0] as? MainTableViewController,
             let collectionView = self.viewControllers?[1] as? MainCollectionViewController else {
                 
@@ -152,8 +147,12 @@ extension MainTabBarController {
         collectionView.movieInformations = self.movieInformations
     }
         
-    func fetchMovieInformation(by sortCode: SortCode, _ completion: @escaping ()->()) {
-            let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode))
+    private func fetchMovieInformation(by sortCode: SortCode, _ completion: @escaping ()->()) {
+        let request = NetworkManager.shared.requestBuilder.makeRequest(form: MovieAPI.movieList(sortBy: sortCode), errorOcurredBlock: {
+            
+            self.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.urlFailure), animated: true, completion: nil)
+            
+        })
             NetworkManager.shared.fetch(with: request, decodeType: APIResponseMovieInformation.self) { [weak self] (result, response) in
                 switch result {
                 case .success(let data):
@@ -162,10 +161,10 @@ extension MainTabBarController {
                         self?.indicator.stopAnimating()
                         completion()
                     }
-                case.failure(let error):
+                case.failure( _):
                     OperationQueue.main.addOperation {
                         self?.indicator.stopAnimating()
-                        self?.present(ErrorHandler.shared.buildErrorAlertController(error: error), animated: true, completion: nil)
+                        self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
                     }
                 }
             }

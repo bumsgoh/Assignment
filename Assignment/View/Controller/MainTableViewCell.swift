@@ -67,8 +67,8 @@ extension MainTableViewCell {
         self.infoLabel.text = ""
         self.outDateLabel.text = ""
     }
-    
-    func UISetUp() {
+//MARK:- UI Setting
+  private func UISetUp() {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(gradeImageView)
         self.contentView.addSubview(outDateLabel)
