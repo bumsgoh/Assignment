@@ -77,7 +77,7 @@ class MovieDetailTableViewController: UITableViewController, UIGestureRecognizer
             self.tableHeaderViewHeightAnchor.isActive = true
         } else {
             self.tableHeaderViewHeightAnchor.isActive = false
-            self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.35)
+            self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.45)
             self.tableHeaderViewHeightAnchor.isActive = true
         }
     }
@@ -102,7 +102,7 @@ extension MovieDetailTableViewController {
                 self.tableHeaderViewHeightAnchor.isActive = true
             } else {
                 self.tableHeaderViewHeightAnchor.isActive = false
-                self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.35)
+                self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.45)
                 self.tableHeaderViewHeightAnchor.isActive = true
             }
             

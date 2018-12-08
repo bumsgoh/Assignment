@@ -61,19 +61,19 @@ class DetailMovieInformationView: UIView {
         genreAndRunningTimeLabel.text = "\(movieDetail.genre) \(movieDetail.duration)분"
         
         let reservationText: NSMutableAttributedString = NSMutableAttributedString()
-        reservationText.append("예매율".toBoldString(with: 20))
+        reservationText.append("예매율".toBoldString(of: 20))
         let reservationNormalString = NSMutableAttributedString(string:"\n\n\(movieDetail.reservationRate)")
         reservationText.append(reservationNormalString)
         reservationRateLabel.attributedText = reservationText
         
         let ratingText: NSMutableAttributedString = NSMutableAttributedString()
-        ratingText.append("평점".toBoldString(with: 20))
+        ratingText.append("평점".toBoldString(of: 20))
         let ratingNormalString = NSMutableAttributedString(string:"\n\(movieDetail.userRating)")
         ratingText.append(ratingNormalString)
         ratingLabel.attributedText = ratingText
         
         let audienceText: NSMutableAttributedString = NSMutableAttributedString()
-        audienceText.append("총 관객수".toBoldString(with: 20))
+        audienceText.append("총 관객수".toBoldString(of: 20))
         guard let audienceNumber: String = self.numberFormatter.string(from: movieDetail.audience as NSNumber) else {
             
             return

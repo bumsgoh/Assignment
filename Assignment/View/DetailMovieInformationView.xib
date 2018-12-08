@@ -101,7 +101,7 @@
                     <rect key="frame" x="8" y="8" width="132.5" height="157"/>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="PpV-0n-84I">
-                    <rect key="frame" x="164.5" y="66.5" width="0.0" height="10"/>
+                    <rect key="frame" x="164.5" y="41.5" width="0.0" height="10"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLh-uz-tj7">
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
@@ -123,7 +123,7 @@
                     </subviews>
                 </stackView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="SKu-ZM-Oj4">
-                    <rect key="frame" x="170.5" y="49" width="35" height="35"/>
+                    <rect key="frame" x="170.5" y="24" width="35" height="35"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="Df8-T9-mf0">
                             <variation key="heightClass=compact" constant="35"/>
@@ -143,7 +143,7 @@
                 <constraint firstItem="SKu-ZM-Oj4" firstAttribute="leading" secondItem="PpV-0n-84I" secondAttribute="trailing" constant="6" id="Qcm-i7-HjM"/>
                 <constraint firstItem="Td4-gi-1BS" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="UVj-q5-iiD"/>
                 <constraint firstItem="J6E-U9-RiJ" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="0.3" priority="999" id="YDb-mI-AVF"/>
-                <constraint firstItem="PpV-0n-84I" firstAttribute="top" secondItem="Td4-gi-1BS" secondAttribute="centerY" constant="-20" id="apf-h3-Kwd"/>
+                <constraint firstItem="PpV-0n-84I" firstAttribute="top" secondItem="Td4-gi-1BS" secondAttribute="centerY" constant="-45" id="apf-h3-Kwd"/>
                 <constraint firstItem="Td4-gi-1BS" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.6" id="bk3-tG-dsC"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="SKu-ZM-Oj4" secondAttribute="trailing" priority="900" constant="10" id="dps-qd-fqB"/>
                 <constraint firstItem="Ljx-oF-qzt" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" id="gXS-Bu-Jv6"/>
