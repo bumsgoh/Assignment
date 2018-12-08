@@ -1,8 +1,8 @@
 //
 //  ActorAndDirectorTableViewCell.swift
-//  EdWithProject5
+//  Assignment
 //
-//  Created by 고상범 on 2018. 9. 2..
+//  Created by 고상범 on 2018. 12. 7..
 //  Copyright © 2018년 고상범. All rights reserved.
 //
 
