@@ -19,6 +19,8 @@ class NetworkManager: APIService {
     
     private convenience init() {
         self.init(configuration: .default)
+        self.session.configuration.timeoutIntervalForRequest = 10.0
+        self.session.configuration.timeoutIntervalForResource = 15.0
     }
    
     static let shared = NetworkManager()

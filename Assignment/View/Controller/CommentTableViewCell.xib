@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="145" id="7ge-Pk-Rnb" customClass="CommentTableViewCell" customModule="Assignment" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="419" height="145"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7ge-Pk-Rnb" id="1Iz-4X-gem">
+                <rect key="frame" x="0.0" y="0.0" width="419" height="144.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_user_loading" translatesAutoresizingMaskIntoConstraints="NO" id="mtT-v1-D2b">
+                        <rect key="frame" x="8" y="36" width="72.5" height="72.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="mtT-v1-D2b" secondAttribute="height" id="PDh-0b-c87"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="아이디" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18m-4V-Uag">
+                        <rect key="frame" x="104.5" y="24" width="36.5" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Pxq-4F-h74"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="시간" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aiM-e1-KQs">
+                        <rect key="frame" x="104.5" y="52" width="29.5" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="한줄평 텍스트" translatesAutoresizingMaskIntoConstraints="NO" id="Wbj-96-JDq">
+                        <rect key="frame" x="98.5" y="80.5" width="300.5" height="58"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="lH1-nS-gHn" userLabel="starRatingStackView">
+                        <rect key="frame" x="149" y="17" width="100" height="20"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="4iY-Gf-czD">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="eAm-Bz-aqJ">
+                                <rect key="frame" x="20" y="0.0" width="20" height="20"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="znz-L4-LCv">
+                                <rect key="frame" x="40" y="0.0" width="20" height="20"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="dko-3Z-FcJ">
+                                <rect key="frame" x="60" y="0.0" width="20" height="20"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_star_large" translatesAutoresizingMaskIntoConstraints="NO" id="met-7B-KIn">
+                                <rect key="frame" x="80" y="0.0" width="20" height="20"/>
+                            </imageView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="100" id="MuM-5V-R2a"/>
+                            <constraint firstAttribute="height" secondItem="4iY-Gf-czD" secondAttribute="width" id="mKG-EX-htt"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Wbj-96-JDq" firstAttribute="top" secondItem="aiM-e1-KQs" secondAttribute="bottom" constant="8" id="4ge-0B-4YJ"/>
+                    <constraint firstItem="aiM-e1-KQs" firstAttribute="top" secondItem="18m-4V-Uag" secondAttribute="bottom" constant="8" id="5bF-0V-iXp"/>
+                    <constraint firstItem="mtT-v1-D2b" firstAttribute="height" secondItem="1Iz-4X-gem" secondAttribute="height" multiplier="0.5" id="7dl-Zo-tXB"/>
+                    <constraint firstItem="Wbj-96-JDq" firstAttribute="leading" secondItem="mtT-v1-D2b" secondAttribute="trailing" constant="18" id="Doo-DH-c1e"/>
+                    <constraint firstItem="mtT-v1-D2b" firstAttribute="centerY" secondItem="1Iz-4X-gem" secondAttribute="centerY" id="G8K-nB-nhu"/>
+                    <constraint firstAttribute="trailing" secondItem="Wbj-96-JDq" secondAttribute="trailing" constant="20" id="Grl-Ta-QYr"/>
+                    <constraint firstItem="18m-4V-Uag" firstAttribute="top" secondItem="1Iz-4X-gem" secondAttribute="top" constant="24" id="Jjs-GL-O0P"/>
+                    <constraint firstAttribute="bottom" secondItem="Wbj-96-JDq" secondAttribute="bottom" constant="6" id="PGO-LZ-YoN"/>
+                    <constraint firstItem="mtT-v1-D2b" firstAttribute="leading" secondItem="1Iz-4X-gem" secondAttribute="leading" constant="8" id="a2d-Sp-xfb"/>
+                    <constraint firstItem="18m-4V-Uag" firstAttribute="leading" secondItem="mtT-v1-D2b" secondAttribute="trailing" constant="24" id="b3A-ao-Fid"/>
+                    <constraint firstItem="lH1-nS-gHn" firstAttribute="top" secondItem="18m-4V-Uag" secondAttribute="centerY" constant="-17" id="bg7-tY-unK"/>
+                    <constraint firstItem="lH1-nS-gHn" firstAttribute="leading" secondItem="18m-4V-Uag" secondAttribute="trailing" constant="8" id="gzx-qc-BjH"/>
+                    <constraint firstItem="aiM-e1-KQs" firstAttribute="leading" secondItem="mtT-v1-D2b" secondAttribute="trailing" constant="24" id="qio-iy-7We"/>
+                    <constraint firstItem="Wbj-96-JDq" firstAttribute="top" secondItem="aiM-e1-KQs" secondAttribute="bottom" constant="8" id="sdP-Ri-AHo"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="commentTextView" destination="Wbj-96-JDq" id="ei9-Vq-XXB"/>
+                <outlet property="starRatingStackView" destination="lH1-nS-gHn" id="VPS-Bz-QaM"/>
+                <outlet property="timeLabel" destination="aiM-e1-KQs" id="kHZ-hy-W2l"/>
+                <outlet property="userIdLabel" destination="18m-4V-Uag" id="ErG-fb-sGe"/>
+                <outlet property="userImageView" destination="mtT-v1-D2b" id="jCT-P3-5ZK"/>
+            </connections>
+            <point key="canvasLocation" x="108" y="9"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_star_large" width="48" height="48"/>
+        <image name="ic_user_loading" width="36" height="36"/>
+    </resources>
+</document>

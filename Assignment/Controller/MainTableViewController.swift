@@ -100,9 +100,8 @@ extension MainTableViewController {
      }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let VC: ViewController = ViewController()
-        
-       // VC.movieId = self.movieData[indexPath.row].id
+        let VC: MovieDetailTableViewController = MovieDetailTableViewController()
+        VC.movieId = self.movieInformations[indexPath.row].id
        self.navigationController?.pushViewController(VC, animated: true)
     }
 }

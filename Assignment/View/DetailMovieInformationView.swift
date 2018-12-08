@@ -17,11 +17,17 @@ class DetailMovieInformationView: UIView {
             refreshingStarRatingView()
         }
     }
-    var movieDetailInformations: MovieDetailInformations = MovieDetailInformations() {
+    var movieDetailInformations: MovieDetailData? {
         didSet {
            setDataToViews()
         }
     }
+    
+    let numberFormatter: NumberFormatter = {
+        let formatter =  NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
     
     private func getAllArrangedSubviews() {
         mutableStarImageArray = starRatingStackView.arrangedSubviews.compactMap {
@@ -49,30 +55,39 @@ class DetailMovieInformationView: UIView {
     }
     
     func setDataToViews() {
-        movieImageView.image = movieDetailInformations.movieImage
-        movieTitleLabel.text = movieDetailInformations.movieTitle
-        outDateLabel.text = movieDetailInformations.outDate
-        genreAndRunningTimeLabel.text = movieDetailInformations.genreAndRunningTime
-        movieGradeImageView.image = movieDetailInformations.movieGradeImage
+        guard let movieDetail = self.movieDetailInformations else {
+            
+            return
+        }
+        //movieImageView.image = movieDetailInformations.image
+        movieTitleLabel.text = movieDetail.title
+        outDateLabel.text = movieDetail.date
+        genreAndRunningTimeLabel.text = "\(movieDetail.genre) \(movieDetail.duration)분"
+        //movieGradeImageView.image = movieDetailInformations.grade
         
         let reservationText: NSMutableAttributedString = NSMutableAttributedString()
         reservationText.append("예매율".toBoldString(with: 20))
-        let reservationNormalString = NSMutableAttributedString(string:"\n\n\(movieDetailInformations.reservationRate)")
+        let reservationNormalString = NSMutableAttributedString(string:"\n\n\(movieDetail.reservationRate)")
         reservationText.append(reservationNormalString)
         reservationRateLabel.attributedText = reservationText
         
         let ratingText: NSMutableAttributedString = NSMutableAttributedString()
         ratingText.append("평점".toBoldString(with: 20))
-        let ratingNormalString = NSMutableAttributedString(string:"\n\(movieDetailInformations.rating)")
+        let ratingNormalString = NSMutableAttributedString(string:"\n\(movieDetail.userRating)")
         ratingText.append(ratingNormalString)
         ratingLabel.attributedText = ratingText
         
         let audienceText: NSMutableAttributedString = NSMutableAttributedString()
         audienceText.append("총 관객수".toBoldString(with: 20))
-        let audienceNormalString = NSMutableAttributedString(string:"\n\n\(movieDetailInformations.totalAudience)")
+        guard let audienceNumber: String = self.numberFormatter.string(from: movieDetail.audience as NSNumber) else {
+            
+            return
+            
+        }
+        let audienceNormalString = NSMutableAttributedString(string:"\n\n\(audienceNumber)")
         audienceText.append(audienceNormalString)
         totalAudienceLabel.attributedText = audienceText
-        starRatingPoint = movieDetailInformations.starRating
+        starRatingPoint = Float(movieDetail.userRating)
     }
     
     override func awakeFromNib() {
