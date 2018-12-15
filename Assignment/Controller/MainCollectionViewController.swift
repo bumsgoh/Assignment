@@ -11,8 +11,8 @@ import UIKit
 
 private let reuseIdentifier = "MovieCollectionViewCell"
 
-var cellsPerRow:CGFloat = 2
-let cellPadding:CGFloat = 16
+var cellSizeRatio:CGFloat = 2
+let cellPadding:CGFloat = 8
 
 class MainCollectionViewController: UICollectionViewController {
     var sortCode: SortCode = SortCode.reservationRate
@@ -58,7 +58,7 @@ class MainCollectionViewController: UICollectionViewController {
             switch result {
             case .success(let data):
                 self?.movieInformations = data.movies
-                OperationQueue.main.addOperation {
+                 DispatchQueue.main.async {
                     self?.collectionView.reloadData()
                     refreshControl.endRefreshing()
                 }
@@ -73,7 +73,7 @@ extension MainCollectionViewController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        cellsPerRow = (traitCollection.verticalSizeClass == .compact) ? 4 : 2
+        cellSizeRatio = (traitCollection.verticalSizeClass == .compact) ? 4 : 2
         collectionView.reloadData()
     }
     
@@ -121,9 +121,9 @@ extension MainCollectionViewController {
 extension MainCollectionViewController: UICollectionViewDelegateFlowLayout {
   
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthWithoutPadding = self.collectionView.frame.width - (cellPadding + cellPadding * cellsPerRow)
-        let itemWidth = widthWithoutPadding / cellsPerRow
-        return CGSize(width: itemWidth, height: itemWidth * 2)
+        let widthWithoutPadding = self.collectionView.frame.width - (2 * cellPadding * cellSizeRatio)
+        let itemWidth = widthWithoutPadding / cellSizeRatio
+        return CGSize(width: itemWidth, height: itemWidth * 2.1)
     }
 }
 

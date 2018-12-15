@@ -10,7 +10,7 @@ import UIKit
 
 extension String {
     func toBoldString(of size: Int) -> NSMutableAttributedString {
-        let attribute: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 20)]
+        let attribute: [NSAttributedString.Key: Any] = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: CGFloat(size))]
         let attributedString = NSMutableAttributedString(string: self, attributes: attribute)
         return attributedString
     }

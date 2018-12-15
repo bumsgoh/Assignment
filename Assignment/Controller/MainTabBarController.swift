@@ -23,7 +23,6 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setIndicator()
-        self.navigationItem.title = "예매율순"
         navigationItemUpdate()
         indicator.startAnimating()
         setInitialNetworkData()
@@ -123,7 +122,7 @@ extension MainTabBarController {
             switch result {
             case .success(let data):
                 self?.movieInformations = data.movies
-                OperationQueue.main.addOperation {
+                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                     self?.buildViewControllers()
                 }
@@ -162,7 +161,7 @@ extension MainTabBarController {
                         completion()
                     }
                 case.failure( _):
-                    OperationQueue.main.addOperation {
+                     DispatchQueue.main.async {
                         self?.indicator.stopAnimating()
                         self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
                     }

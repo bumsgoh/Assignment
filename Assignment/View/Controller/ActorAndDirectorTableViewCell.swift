@@ -53,7 +53,7 @@ class ActorAndDirectorTableViewCell: UITableViewCell {
     let actorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.numberOfLines = 0
         label.font = UIFont.systemFont(ofSize: 13)
         return label
@@ -118,6 +118,7 @@ class ActorAndDirectorTableViewCell: UITableViewCell {
         self.actorText.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 18).isActive = true
         self.actorLabel.topAnchor.constraint(equalTo: self.directorText.bottomAnchor, constant: 8).isActive = true
         self.actorLabel.leadingAnchor.constraint(equalTo: self.actorText.trailingAnchor, constant: 8).isActive = true
+    self.actorLabel.trailingAnchor.constraint(lessThanOrEqualTo: self.contentView.trailingAnchor, constant: -8).isActive = true
         
         
         self.tableViewHeadView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true

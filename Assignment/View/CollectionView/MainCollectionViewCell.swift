@@ -82,7 +82,7 @@ extension MainCollectionViewCell {
         self.movieImageView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1).isActive = true
     
         self.gradeImageView.trailingAnchor.constraint(equalTo: self.movieImageView.trailingAnchor, constant: -8).isActive = true
-        self.gradeImageView.topAnchor.constraint(equalTo: self.movieImageView.topAnchor, constant: 18).isActive = true
+        self.gradeImageView.topAnchor.constraint(equalTo: self.movieImageView.topAnchor, constant: 32).isActive = true
         
         self.titleLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor).isActive = true
         self.titleLabel.topAnchor.constraint(equalTo: self.movieImageView.bottomAnchor, constant: 8).isActive = true

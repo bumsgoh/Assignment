@@ -58,23 +58,6 @@ struct MovieDetailData: Codable {
         case userRating = "user_rating"
     }
     
-    init(director: String, date: String, id: String, title: String, audience: Int, actor: String, duration: Int, synopsis: String, genre: String,  grade: Int, image: String, reservationGrade: Int, reservationRate: Double,  userRating: Double) {
-        self.director = director
-        self.date = date
-        self.id = id
-        self.title = title
-        self.audience = audience
-        self.actor = actor
-        self.duration = duration
-        self.synopsis = synopsis
-        self.genre = genre
-        self.grade = grade
-        self.image = image
-        self.reservationGrade = reservationGrade
-        self.reservationRate = reservationRate
-        self.userRating = userRating
-    }
-    
     init() {
         self.director = ""
         self.date = ""
@@ -143,15 +126,3 @@ public func getGradeImage(grade: Int) -> UIImage {
         
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

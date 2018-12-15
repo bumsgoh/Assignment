@@ -10,7 +10,6 @@ import UIKit
 
 class MovieDetailTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     
-    
     let dispatchGroup = DispatchGroup()
     let cellIdentifier = "commentCell"
     let synopsisCellIdentifier = "synopsisCell"
@@ -167,7 +166,6 @@ extension MovieDetailTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
-
 }
 
 //MARK:-UI Data Setting
@@ -196,6 +194,7 @@ extension MovieDetailTableViewController {
     }
     
 //MARK:-Threads Work
+    //dispatch group을 사용하여 전체적으로 데이터를 가져오는 작업이 완료된 이후에 알맞는 처리를 할 수 있도록 구현했습니다.
    private func UIAfterGetData() {
         self.indicator.startAnimating()
         self.getMovieDetailData()
@@ -204,9 +203,6 @@ extension MovieDetailTableViewController {
         dispatchGroup.notify(queue: .main) {
             self.indicator.stopAnimating()
             self.movieId = self.movieDetailData.id
-            let data: MovieDetailData = MovieDetailData(director: self.movieDetailData.director, date: self.movieDetailData.date, id: self.self.movieDetailData.id, title: self.movieDetailData.title, audience: self.movieDetailData.audience, actor: self.movieDetailData.actor, duration: self.movieDetailData.duration, synopsis: self.movieDetailData.synopsis, genre: self.movieDetailData.genre, grade: self.movieDetailData.grade, image: self.movieDetailData.image, reservationGrade: self.movieDetailData.reservationGrade, reservationRate: self.movieDetailData.reservationRate, userRating: self.movieDetailData.userRating)
-            self.detailMovieInformationView.movieDetailInformations = data
-            
             self.tableView.reloadData()
         }
     }
@@ -221,29 +217,40 @@ extension MovieDetailTableViewController {
         NetworkManager.shared.fetch(with: request, decodeType: MovieDetailData.self) { [weak self] (result, response) in
             switch result {
             case .success(let data):
+                  DispatchQueue.main.async {
+                    //이미지 네트워킹이 오래걸리므로 다른 정보를 먼저 표시하여 사용자에게 빠른 반응을 보일 수 있도록 구현했습니다.
+                    self?.movieDetailData = data
+                    self?.detailMovieInformationView.movieDetailInformations = self?.movieDetailData ?? MovieDetailData()
+                    self?.navigationItem.title = "\(self?.movieDetailData.title ?? "")"
+                    self?.tableView.reloadData()
+                    
+                  }
                 guard let imageURL: URL = URL(string: data.image) else {
                         
                     return
                         
                 }
-                NetworkManager.shared.getImageWithCaching(url: imageURL) {[weak self] (image,err) in
+                NetworkManager.shared.getImageWithCaching(url: imageURL) {[weak self] (image,error) in
+                    
+                    if error != nil {
+                        DispatchQueue.main.async {
+                            
+                            self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.invalidData), animated: true, completion: nil)
+                        }
+                    }
                     guard let image = image else {
                            
                         return
                             
                     }
-                    OperationQueue.main.addOperation {
-                        self?.movieDetailData = data
-                        self?.navigationItem.title = "\(self?.movieDetailData.title ?? "")"
+                     DispatchQueue.main.async {
                         self?.detailMovieInformationView.movieImageView.image = image
-                        self?.detailMovieInformationView.movieDetailInformations = self?.movieDetailData ?? MovieDetailData()
-                        self?.tableView.reloadData()
                         self?.dispatchGroup.leave()
                         }
                     }
                 
             case.failure(_ ):
-                OperationQueue.main.addOperation {
+                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                     self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
                 }
@@ -263,9 +270,12 @@ extension MovieDetailTableViewController {
             switch result {
             case .success(let data):
                 self?.movieCommentData = data.comments
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
                 self?.dispatchGroup.leave()
             case.failure(_ ):
-                OperationQueue.main.addOperation {
+                 DispatchQueue.main.async {
                     self?.indicator.stopAnimating()
                 self?.present(ErrorHandler.shared.buildErrorAlertController(error: APIError.requestFailed), animated: true, completion: nil)
                 }

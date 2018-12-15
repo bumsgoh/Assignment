@@ -11,16 +11,14 @@ import UIKit
 
 
 class RequestBuilder {
-    
-    let session = URLSession.shared
-    
+
     func makeRequest(form: MovieAPI, errorOcurredBlock: (() -> ())) -> URLRequest {
         guard let url: URL = form.urlComponents.url else {
             errorOcurredBlock()
             fatalError()
                 }
-        let request = URLRequest(url: url)
-        return request
+        
+        return URLRequest(url: url)
     }
 }
 
