@@ -136,7 +136,6 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Ljx-oF-qzt" secondAttribute="trailing" id="0e8-kg-LDN"/>
                 <constraint firstItem="PpV-0n-84I" firstAttribute="leading" secondItem="Td4-gi-1BS" secondAttribute="trailing" constant="24" id="HM8-zX-cf3"/>
                 <constraint firstItem="6ev-Zk-I3y" firstAttribute="height" secondItem="Ljx-oF-qzt" secondAttribute="height" multiplier="0.7" id="L05-SL-9MF"/>
                 <constraint firstItem="SKu-ZM-Oj4" firstAttribute="centerY" secondItem="vLh-uz-tj7" secondAttribute="centerY" id="LD4-x1-Jus"/>

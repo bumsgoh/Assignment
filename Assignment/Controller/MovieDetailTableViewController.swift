@@ -104,7 +104,7 @@ extension MovieDetailTableViewController {
                 self.tableHeaderViewHeightAnchor = self.informationHeadView.heightAnchor.constraint(equalTo: self.tableView.heightAnchor, multiplier: 0.45)
                 self.tableHeaderViewHeightAnchor.isActive = true
             }
-            
+            //레이아웃을 다시 잡은 헤더뷰를 재 할당 해줌으로 화면 회전시 다시 레이아웃할 수 있도록 해줍니다.
             self.tableView.tableHeaderView?.layoutIfNeeded()
             self.tableView.tableHeaderView = self.tableView.tableHeaderView
         }
