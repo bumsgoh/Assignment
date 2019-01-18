@@ -13,7 +13,7 @@ import UIKit
 class RequestBuilder {
 
     func makeRequest(form: MovieAPI, errorOcurredBlock: (() -> ())) -> URLRequest {
-        guard let url: URL = form.urlComponents.url else {
+        guard let url = form.urlComponents.url else {
             errorOcurredBlock()
             fatalError()
                 }

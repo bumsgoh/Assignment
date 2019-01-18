@@ -11,10 +11,10 @@ import UIKit
 
 class NetworkManager: APIService {
    
-    let session: URLSession
+    internal let session: URLSession
     
     private init(configuration: URLSessionConfiguration) {
-        self.session = URLSession(configuration: configuration)
+        session = URLSession(configuration: configuration)
     }
     
     private convenience init() {
@@ -26,20 +26,20 @@ class NetworkManager: APIService {
      */
     static let shared = NetworkManager()
     let requestBuilder = RequestBuilder()
-    private let cache: NSCache = NSCache<NSString, UIImage>()
+    private let cache = NSCache<NSString, UIImage>()
     
     private func downloadImage(url: URL, completion: @escaping (UIImage?, Error?) -> Void) {
         DispatchQueue.main.async {
              UIApplication.shared.isNetworkActivityIndicatorVisible = true
         }
        
-        session.dataTask(with: url, completionHandler: {(data: Data?, reponse: URLResponse?, error: Error?) in
+        session.dataTask(with: url, completionHandler: { (data, reponse, error) in
             defer {
                 DispatchQueue.main.async {
                     UIApplication.shared.isNetworkActivityIndicatorVisible = false
                 }
             }
-            var movieImage: UIImage? = UIImage()
+            var movieImage = UIImage()
             if error != nil {
                 completion(nil,APIError.requestFailed)
                 return
@@ -48,17 +48,15 @@ class NetworkManager: APIService {
                 completion(nil,APIError.invalidData)
                 return
             }
-            guard let image: UIImage = UIImage(data: data) else {
+            guard let image = UIImage(data: data) else {
                 completion(nil,APIError.invalidData)
                 return
             }
             movieImage = image
-            if let image = movieImage {
-                self.cache.setObject(image, forKey: url.absoluteString as NSString)
-            }
+            
+            self.cache.setObject(image, forKey: url.absoluteString as NSString)
             OperationQueue.main.addOperation {
                 completion(movieImage,nil)
-                
             }
         }).resume()
     }
@@ -70,6 +68,4 @@ class NetworkManager: APIService {
             downloadImage(url: url, completion: completion)
         }
     }
-
-    
 }

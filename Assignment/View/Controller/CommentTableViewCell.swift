@@ -10,21 +10,21 @@ import UIKit
 
 class CommentTableViewCell: UITableViewCell {
     
-    var mutableStarImageArray: [UIImageView] = [UIImageView()]
-    var starRatingPoint: Float = 0 {
+    private var mutableStarImageArray = [UIImageView]()
+    private var starRatingPoint: Float = 0 {
         didSet {
             starRatingPoint = starRatingPoint/2
             refreshingStarRatingView()
         }
     }
     
-    var movieCommentData: MovieCommentData = MovieCommentData() {
+    public var movieCommentData: MovieCommentData = MovieCommentData() {
         didSet {
             setDataToViews()
         }
     }
     
-    let formatter: DateFormatter = {
+    private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.dateFormat = "YYYY-MM-dd a hh:mm"
@@ -44,23 +44,23 @@ class CommentTableViewCell: UITableViewCell {
 }
 
 extension CommentTableViewCell {
-   private func refreshingStarRatingView() {
-        for i in self.mutableStarImageArray.indices {
-            let starImageView: UIImageView? = self.mutableStarImageArray[i]
+    private func refreshingStarRatingView() {
+        for (i, v) in mutableStarImageArray.enumerated() {
+            let starImageView = v
             
-            if (self.starRatingPoint >= Float(i+1)) {
-                starImageView?.image = #imageLiteral(resourceName: "ic_star_label")
-            } else if (self.starRatingPoint > Float(i) && self.starRatingPoint < Float(i+1)) {
-                starImageView?.image = #imageLiteral(resourceName: "ic_star_large_half")
+            if starRatingPoint >= Float(i+1) {
+                starImageView.image = #imageLiteral(resourceName: "ic_star_label")
+            } else if starRatingPoint > Float(i) && starRatingPoint < Float(i+1) {
+                starImageView.image = #imageLiteral(resourceName: "ic_star_large_half")
             } else {
-                starImageView?.image = #imageLiteral(resourceName: "ic_star_large")
+                starImageView.image = #imageLiteral(resourceName: "ic_star_large")
             }
         }
     }
     
     private func getAllArrangedSubviews() {
         mutableStarImageArray = starRatingStackView.arrangedSubviews.compactMap {
-            guard let starImageView: UIImageView = $0 as? UIImageView else {
+            guard let starImageView = $0 as? UIImageView else {
                 
                 return UIImageView()
                 
@@ -68,15 +68,15 @@ extension CommentTableViewCell {
             return starImageView
         }
     }
-
+    
     override func prepareForReuse() {
-        self.userImageView.image = #imageLiteral(resourceName: "ic_user_loading")
-        self.userIdLabel.text = ""
-        self.timeLabel.text = ""
-        self.commentTextView.text = ""
+        userImageView.image = #imageLiteral(resourceName: "ic_user_loading")
+        userIdLabel.text = ""
+        timeLabel.text = ""
+        commentTextView.text = ""
     }
     
-   private func setDataToViews() {
+    private func setDataToViews() {
         userImageView.image = #imageLiteral(resourceName: "ic_user_loading")
         userIdLabel.text = movieCommentData.writer
         starRatingPoint = Float(movieCommentData.rating)
@@ -84,10 +84,4 @@ extension CommentTableViewCell {
         timeLabel.text = formatter.string(from: date)
         commentTextView.text = movieCommentData.contents
     }
-    
-    
-    
-    
 }
-
-

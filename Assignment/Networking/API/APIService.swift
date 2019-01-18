@@ -29,7 +29,6 @@ extension APIService {
     defer {
         DispatchQueue.main.async {
             UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    
         }
     }
         let task = session.dataTask(with: request) { (data, response, error) in
