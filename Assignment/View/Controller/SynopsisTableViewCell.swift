@@ -10,7 +10,7 @@ import UIKit
 
 class SynopsisTableViewCell: UITableViewCell {
     
-    let synopsisLabel: UILabel = {
+    public let synopsisLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "줄거리"
@@ -18,7 +18,7 @@ class SynopsisTableViewCell: UITableViewCell {
         return label
     }()
     
-    let synopsisTextView: UITextView = {
+    public let synopsisTextView: UITextView = {
         let view = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = UIFont.systemFont(ofSize: 16)
@@ -28,7 +28,7 @@ class SynopsisTableViewCell: UITableViewCell {
         view.sizeToFit()
         return view
     }()
-   
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.frame = CGRect(x: 0, y: 0, width: 300, height: 250)
@@ -38,22 +38,21 @@ class SynopsisTableViewCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    //MARK:- UI Setting
-   private func UISetUp() {
-        self.contentView.addSubview(synopsisLabel)
-        self.contentView.addSubview(synopsisTextView)
-        
-        self.synopsisLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 12).isActive = true
-        self.synopsisLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 12).isActive = true
-        
-        self.synopsisTextView.topAnchor.constraint(equalTo: self.synopsisLabel.bottomAnchor, constant: 4).isActive = true
-        self.synopsisTextView.bottomAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.bottomAnchor, constant: -8).isActive = true
-        self.synopsisTextView.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor, constant: 8).isActive = true
-        self.synopsisTextView.trailingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.trailingAnchor, constant: -8).isActive = true
-    }
-    
-    
-
 }
 
+extension SynopsisTableViewCell {
+    
+    //MARK:- UI Setting
+    private func UISetUp() {
+        contentView.addSubview(synopsisLabel)
+        contentView.addSubview(synopsisTextView)
+        
+        synopsisLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12).isActive = true
+        synopsisLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12).isActive = true
+        
+        synopsisTextView.topAnchor.constraint(equalTo: synopsisLabel.bottomAnchor, constant: 4).isActive = true
+        synopsisTextView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -8).isActive = true
+        synopsisTextView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 8).isActive = true
+        synopsisTextView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -8).isActive = true
+    }
+}

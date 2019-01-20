@@ -12,8 +12,8 @@ var baseURL: String {
     return "http://connect-boxoffice.run.goorm.io"
 }
 
-var sortCode: SortCode = .reservationRate
-var movieId: String = ""
+var sortCode = SortCode.reservationRate
+var movieId = ""
 
 public enum MovieAPI {
     case movieList(sortBy: SortCode)
@@ -23,13 +23,13 @@ public enum MovieAPI {
 
     var path: String {
         switch self {
-        case .movieList(let code):
+        case  let .movieList(code):
             sortCode = code
             return "/movies"
-        case .movieDetailData(let id):
+        case let .movieDetailData(id):
             movieId = id
             return "/movie"
-        case .movieDataIncludingComments(let id):
+        case let .movieDataIncludingComments(id):
             movieId = id
             return "/comments"
         case .movieComments:
@@ -55,7 +55,6 @@ public enum MovieAPI {
             }
             return components
         } else {
-            
             fatalError("failed to make URL")
         }
     }

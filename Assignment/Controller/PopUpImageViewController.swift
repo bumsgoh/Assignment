@@ -10,7 +10,7 @@ import UIKit
 
 class PopUpImageViewController: UIViewController {
     
-    let fullScreenImageView: UIImageView = {
+    public let fullScreenImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
@@ -18,29 +18,31 @@ class PopUpImageViewController: UIViewController {
         return imageView
     }()
     
-   lazy var imageViewGestureRecognizer: UITapGestureRecognizer = {
+    private lazy var imageViewGestureRecognizer: UITapGestureRecognizer = {
         let recognizer = UITapGestureRecognizer()
         recognizer.addTarget(self, action: #selector(imageClicked))
         return recognizer
     }()
-    
+}
+
+extension PopUpImageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UISetUp()
     }
     
     @objc func imageClicked() {
-        self.dismiss(animated: false, completion: nil)
+        dismiss(animated: false, completion: nil)
     }
     
-   private func UISetUp() {
+    private func UISetUp() {
         
-        self.view.addSubview(fullScreenImageView)
+        view.addSubview(fullScreenImageView)
         
-        fullScreenImageView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        fullScreenImageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        fullScreenImageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        fullScreenImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        fullScreenImageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        fullScreenImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        fullScreenImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        fullScreenImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
         fullScreenImageView.addGestureRecognizer(imageViewGestureRecognizer)
         
     }
