@@ -81,7 +81,9 @@ class MovieDetailTableViewController: UITableViewController, UIGestureRecognizer
         }
     }
     
-
+    /*
+     popVC처럼 View Controller를 줄여서 쓰는건 오브젝트 씨 스타일이라, popViewController라고 써주는게 좋을것 같습니다.
+     */
     @objc func movieImageClicked() {
         let popUpVC: PopUpImageViewController = PopUpImageViewController()
             popUpVC.fullScreenImageView.image = detailMovieInformationView.movieImageView.image
@@ -225,11 +227,16 @@ extension MovieDetailTableViewController {
                     self?.tableView.reloadData()
                     
                   }
+                  
                 guard let imageURL: URL = URL(string: data.image) else {
                         
                     return
                         
                 }
+                 
+                /*
+                   self가 weak로 참조하면서 옵셔널 타입이니깐, self를 아예 처음에 옵셔널 바인딩해서 사용해주는건 어떨까 싶습니다.
+                */
                 NetworkManager.shared.getImageWithCaching(url: imageURL) {[weak self] (image,error) in
                     
                     if error != nil {
